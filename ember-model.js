@@ -648,6 +648,7 @@ Ember.Model = Ember.Object.extend(Ember.Evented, {
           relationshipType = Ember.get(Ember.lookup, relationshipType) || this.container.lookupFactory('model:'+ relationshipType);
         }
 
+        //SWRVE-CHANGES
         relationshipData = data[relationshipKey] ? data[relationshipKey] : data[relationshipMeta.options.key];
         if (relationshipData) {
           relationshipType.load(relationshipData);
@@ -1437,7 +1438,11 @@ Ember.hasMany = function(type, options) {
       return this.getHasMany(key, type, meta, this.container);
     },
     set: function(propertyKey, newContentArray, existingArray) {
-      return existingArray.setObjects(newContentArray);
+      //SWRVE-CHANGES
+      if (!Ember.isEqual(newContentArray, existingArray)) {
+        return existingArray.setObjects(newContentArray);
+      }
+      return existingArray;
     }
   }).meta(meta);
 };
