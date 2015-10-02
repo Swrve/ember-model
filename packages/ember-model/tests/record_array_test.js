@@ -18,7 +18,7 @@ module("Ember.RecordArray", {
       {id: 2, name: 'Stefan'},
       {id: 3, name: 'Kris'}
     ];
-    container = new Ember.Registry().container();
+    container = new Ember.Container();
   },
   teardown: function() { }
 });
