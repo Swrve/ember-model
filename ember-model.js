@@ -1256,11 +1256,14 @@ Ember.Model.reopenClass({
   // FIXME
   findFromCacheOrLoad: function(data, container) {
     var record;
-    if (!data[get(this, 'primaryKey')]) {
+    // SWRVE CHANGES
+    var primaryKeyValue = data[get(this, 'primaryKey')];
+    if (!primaryKeyValue) {
       record = this.create({isLoaded: false, container: container});
     } else {
-      record = this.cachedRecordForId(data[get(this, 'primaryKey')], container);
+      record = this.cachedRecordForId(primaryKeyValue, container);
     }
+    // END OF SWRVE CHANGES
     // set(record, 'data', data);
     record.load(data[get(this, 'primaryKey')], data);
     return record;

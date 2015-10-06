@@ -3,6 +3,7 @@ var attr = Ember.attr;
 module("Ember.HasManyArray - manipulation");
 
 test("pushing record without an id adds a reference to the content", function() {
+  expect(3);
   var json = {
     id: 1,
     title: 'foo',
@@ -42,6 +43,7 @@ test("pushing record without an id adds a reference to the content", function() 
 });
 
 test('adding and reverting an existing record to a many array', function () {
+  expect(6);
   var json = {
     id: 1,
     title: 'foo',
@@ -86,6 +88,7 @@ test('adding and reverting an existing record to a many array', function () {
 });
 
 test('adding and reverting a new record to a many array', function () {
+  expect(6);
   var json = {
     id: 1,
     title: 'foo',
@@ -128,6 +131,7 @@ test('adding and reverting a new record to a many array', function () {
 });
 
 test("removing a record from the many array", function() {
+  expect(4);
   var json = {
     id: 1,
     title: 'foo',
@@ -169,6 +173,7 @@ test("removing a record from the many array", function() {
 });
 
 test("setting a has many array with empty array", function() {
+  expect(5);
   var json = {
     id: 1,
     title: 'foo',
@@ -208,6 +213,7 @@ test("setting a has many array with empty array", function() {
 });
 
 test("setting a has many array with item array", function() {
+  expect(5);
   var json = {
     id: 1,
     title: 'foo',
@@ -247,6 +253,7 @@ test("setting a has many array with item array", function() {
 });
 
 test("setting a hasMany array with setObjects", function() {
+  expect(5);
   var json = {
     id: 1,
     title: 'foo',
@@ -287,6 +294,7 @@ test("setting a hasMany array with setObjects", function() {
 
 // SWRVE CHANGES
 test("setting a has many array with the same array should not trigger its observers", function() {
+  expect(7);
   var json = {
     id: 1,
     title: 'foo',

@@ -29,6 +29,8 @@ Ember.hasMany = function(type, options) {
 
     if (arguments.length > 1) {
       // SWRVE CHANGES
+      // Check if the arrays are the same,
+      // otherwise observers are executed for nothing!
       if (!Ember.isEqual(newContentArray, existingArray)) {
       // END OF SWRVE CHANGES
         return existingArray.setObjects(newContentArray);
