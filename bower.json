@@ -1,10 +1,11 @@
 {
   "name": "ember-model",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "main": "ember-model.js",
   "dependencies": {
-    "ember": "~1.11"
+    "ember": "~1.10"
   },
+  "swrve_notice": "DOWNGRADED_EMBER_VERSION_FROM_1.11_TO_MATCH_OURS",
   "devDependencies": {
     "qunit": "~1.11"
   },
