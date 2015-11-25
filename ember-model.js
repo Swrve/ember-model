@@ -404,6 +404,7 @@ Ember.ManyArray = Ember.RecordArray.extend({
       content: content,
       originalContent: content.slice()
     });
+    set(this, '_modifiedRecords', []);
   },
 
   revert: function() {
