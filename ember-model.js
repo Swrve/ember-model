@@ -400,24 +400,10 @@ Ember.ManyArray = Ember.RecordArray.extend({
   },
 
   load: function(content) {
-    // SWRVE CHANGES
-    // Check if the new items are the same as the current ones
-    // Otherwise observers are executed for nothing!
-    var currentContent = get(this, 'content');
-    var mustUpdateCollection = content.length !== currentContent.length;
-    for (var i = 0, l = content.length; i < l && !mustUpdateCollection; i++) {
-      var existingItem = currentContent[i];
-      var newItem = content[i];
-      mustUpdateCollection = newItem !== existingItem;
-    }
-    if (mustUpdateCollection) {
-      Ember.setProperties(this, {
-        content: content,
-        originalContent: content.slice()
-      });
-    }
-    set(this, '_modifiedRecords', []);
-    // END OF SWRVE CHANGES
+    Ember.setProperties(this, {
+      content: content,
+      originalContent: content.slice()
+    });
   },
 
   revert: function() {
@@ -1457,14 +1443,7 @@ Ember.hasMany = function(type, options) {
       if (!existingArray) {
         existingArray = this.getHasMany(options.key || propertyKey, type, meta, this.container);
       }
-      // SWRVE CHANGES
-      // Check if the arrays are the same,
-      // otherwise observers are executed for nothing!
-      if (!Ember.isEqual(newContentArray, existingArray)) {
-        return existingArray.setObjects(newContentArray);
-      }
-      return existingArray;
-      // END OF SWRVE CHANGES
+      return existingArray.setObjects(newContentArray);
     }
   }).meta(meta);
 };
