@@ -31,8 +31,8 @@ test("derp", function() {
 
   equal(comments.get('length'), 3);
   ok(Ember.run(comments, comments.get, 'firstObject') instanceof Comment);
-  deepEqual(Ember.run(comments, comments.mapProperty, 'text'), ['uno', 'dos', 'tres']);
-  ok(!comments.everyProperty('isNew'), "Records should not be new");
+  deepEqual(Ember.run(comments, comments.mapBy, 'text'), ['uno', 'dos', 'tres']);
+  ok(!comments.isEvery('isNew'), "Records should not be new");
 });
 
 test("loading embedded data into a parent updates the child records", function() {
@@ -151,7 +151,7 @@ test("loading collections with same element twice does not trigger observers", f
       resolve(json);
     });
   };
-  
+
   var article = Article.create();
   Ember.run(article, article.load, json.id, json);
   // Force collection to be taken into account (_registerHasManyArray)
