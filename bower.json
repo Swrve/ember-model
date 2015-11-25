@@ -3,9 +3,8 @@
   "version": "0.0.15",
   "main": "ember-model.js",
   "dependencies": {
-    "ember": "~1.10"
+    "ember": "~1.11"
   },
-  "swrve_notice": "DOWNGRADED_EMBER_VERSION_FROM_1.11_TO_MATCH_OURS",
   "devDependencies": {
     "qunit": "~1.11"
   },
