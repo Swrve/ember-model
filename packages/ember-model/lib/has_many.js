@@ -34,7 +34,14 @@ Ember.hasMany = function(type, options) {
       if (!existingArray) {
         existingArray = this.getHasMany(options.key || propertyKey, type, meta, this.container);
       }
-      return existingArray.setObjects(newContentArray);
+      // SWRVE CHANGES
+      // Check if the arrays are the same,
+      // otherwise observers are executed for nothing!
+      if (!Ember.isEqual(newContentArray, existingArray)) {
+        return existingArray.setObjects(newContentArray);
+      }
+      return existingArray;
+      // END OF SWRVE CHANGES
     }
   }).meta(meta);
 };
