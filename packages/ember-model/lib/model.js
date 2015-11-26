@@ -30,6 +30,15 @@ function hasCachedValue(object, key) {
   }
 }
 
+function isDescriptor(value) {
+  // Ember < 1.11
+  if (Ember.Descriptor !== undefined) {
+    return value instanceof Ember.Descriptor;
+  }
+  // Ember >= 1.11
+  return value && typeof value === 'object' && value.isDescriptor;
+}
+
 Ember.run.queues.push('data');
 
 Ember.Model = Ember.Object.extend(Ember.Evented, {
@@ -57,12 +66,16 @@ Ember.Model = Ember.Object.extend(Ember.Evented, {
 
   _relationshipBecameDirty: function(name) {
     var dirtyAttributes = get(this, '_dirtyAttributes');
-    if (!dirtyAttributes.contains(name)) { dirtyAttributes.pushObject(name); }
+    if (dirtyAttributes) {
+        dirtyAttributes.addObject(name);
+    } else {
+        set(this, '_dirtyAttributes', [name]);
+    }
   },
 
   _relationshipBecameClean: function(name) {
     var dirtyAttributes = get(this, '_dirtyAttributes');
-    dirtyAttributes.removeObject(name);
+    if (dirtyAttributes) { dirtyAttributes.removeObject(name); }
   },
 
   dataKey: function(key) {
@@ -88,7 +101,7 @@ Ember.Model = Ember.Object.extend(Ember.Evented, {
 
     if (!reference) {
       reference = this.constructor._getOrCreateReferenceForId(id);
-      reference.record = this;
+      set(reference, 'record', this);
       this._reference = reference;
     } else if (reference.id !== id) {
       reference.id = id;
@@ -141,7 +154,7 @@ Ember.Model = Ember.Object.extend(Ember.Evented, {
   },
 
   didDefineProperty: function(proto, key, value) {
-    if (value instanceof Ember.Descriptor) {
+    if (isDescriptor(value)) {
       var meta = value.meta();
       var klass = proto.constructor;
 

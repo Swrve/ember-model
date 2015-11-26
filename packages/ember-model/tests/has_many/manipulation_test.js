@@ -3,7 +3,6 @@ var attr = Ember.attr;
 module("Ember.HasManyArray - manipulation");
 
 test("pushing record without an id adds a reference to the content", function() {
-  expect(3);
   var json = {
     id: 1,
     title: 'foo',
@@ -43,7 +42,6 @@ test("pushing record without an id adds a reference to the content", function() 
 });
 
 test('adding and reverting an existing record to a many array', function () {
-  expect(6);
   var json = {
     id: 1,
     title: 'foo',
@@ -88,7 +86,6 @@ test('adding and reverting an existing record to a many array', function () {
 });
 
 test('adding and reverting a new record to a many array', function () {
-  expect(6);
   var json = {
     id: 1,
     title: 'foo',
@@ -131,7 +128,6 @@ test('adding and reverting a new record to a many array', function () {
 });
 
 test("removing a record from the many array", function() {
-  expect(4);
   var json = {
     id: 1,
     title: 'foo',
@@ -173,7 +169,6 @@ test("removing a record from the many array", function() {
 });
 
 test("setting a has many array with empty array", function() {
-  expect(5);
   var json = {
     id: 1,
     title: 'foo',
@@ -213,7 +208,6 @@ test("setting a has many array with empty array", function() {
 });
 
 test("setting a has many array with item array", function() {
-  expect(5);
   var json = {
     id: 1,
     title: 'foo',
@@ -253,7 +247,6 @@ test("setting a has many array with item array", function() {
 });
 
 test("setting a hasMany array with setObjects", function() {
-  expect(5);
   var json = {
     id: 1,
     title: 'foo',
@@ -291,51 +284,3 @@ test("setting a hasMany array with setObjects", function() {
   equal(article.get('comments.length'), 3, "should be 3 comments after revert");
   equal(article.get('comments.isDirty'), false, "should not be dirty after revert");
 });
-
-// SWRVE CHANGES
-test("setting a has many array with the same array should not trigger its observers", function() {
-  expect(7);
-  var json = {
-    id: 1,
-    title: 'foo',
-    comments: [1, 2, 3]
-  };
-
-  var Comment = Ember.Model.extend({
-    text: attr()
-  });
-
-  var Article = Ember.Model.extend({
-    title: attr(),
-
-    comments: Ember.hasMany(Comment, { key: 'comments' }),
-
-    commentsChangeCounter: 0,
-    commentsChanged: function() {
-      this.incrementProperty('commentsChangeCounter');
-    }.observes('comments.@each')
-  });
-
-  Comment.adapter = Ember.FixtureAdapter.create();
-  Comment.FIXTURES = [
-    {id: 1, text: 'uno'},
-    {id: 2, text: 'dos'},
-    {id: 3, text: 'tres'}
-  ];
-
-  var article = Article.create();
-  Ember.run(article, article.load, json.id, json);
-
-  equal(article.get('comments.length'), 3, "should be 3 comments");
-
-  article.set('comments', article.get('comments'));
-  equal(article.get('comments.length'), 3, "should still be 3 comments");
-  equal(article.get('comments.isDirty'), false, "comments should not be dirty");
-  equal(article.get('commentsChangeCounter'), 0, "comment observers should not fire");
-
-  article.set('comments', [Comment.find(3)]);
-  equal(article.get('comments.length'), 1, "should be 1 comment after set");
-  equal(article.get('comments.isDirty'), true, "comments should be dirty after set");
-  equal(article.get('commentsChangeCounter'), 1, "comment observers should have fired 1 time");
-});
-// END OF SWRVE CHANGES
