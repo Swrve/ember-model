@@ -123,10 +123,23 @@ Ember.ManyArray = Ember.RecordArray.extend({
   },
 
   load: function(content) {
-    Ember.setProperties(this, {
-      content: content,
-      originalContent: content.slice()
-    });
+    // SWRVE CHANGES
+    // Check if the new items are the same as the current ones
+    // Otherwise observers are executed for nothing!
+    var currentContent = get(this, 'content');
+    var mustUpdateCollection = content.length !== currentContent.length;
+    for (var i = 0, l = content.length; i < l && !mustUpdateCollection; i++) {
+      var existingItem = currentContent[i];
+      var newItem = content[i];
+      mustUpdateCollection = newItem !== existingItem;
+    }
+    if (mustUpdateCollection) {
+      Ember.setProperties(this, {
+        content: content,
+        originalContent: content.slice()
+      });
+    }
+    // END OF SWRVE CHANGES
     set(this, '_modifiedRecords', []);
   },
 
