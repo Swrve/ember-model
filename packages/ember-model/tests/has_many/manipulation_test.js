@@ -285,6 +285,7 @@ test("setting a hasMany array with setObjects", function() {
   equal(article.get('comments.isDirty'), false, "should not be dirty after revert");
 });
 
+// SWRVE CHANGES
 test("setting a has many array with the same array should not trigger its observers", function() {
   expect(7);
   var json = {
@@ -330,3 +331,4 @@ test("setting a has many array with the same array should not trigger its observ
   equal(article.get('comments.isDirty'), true, "comments should be dirty after set");
   equal(article.get('commentsChangeCounter'), 1, "comment observers should have fired 1 time");
 });
+// END OF SWRVE CHANGES

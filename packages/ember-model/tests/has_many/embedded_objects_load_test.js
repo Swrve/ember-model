@@ -116,6 +116,7 @@ test("loading embedded data into a parent with deleted children deletes the chil
   equal(post.get('comments.firstObject.body'), 'new');
 });
 
+// SWRVE CHANGES
 test("loading collections with same element twice does not trigger observers", function() {
   expect(4);
   var json = {
@@ -169,3 +170,4 @@ test("loading collections with same element twice does not trigger observers", f
   equal(comments.get('isDirty'), false, "comments should not be dirty");
   deepEqual(Ember.run(comments, comments.mapBy, 'text'), ['helo here']);
 });
+// END OF SWRVE CHANGES
